@@ -1,0 +1,59 @@
+// const Months = [
+    //   "January",
+    //   "February",
+    //   "March",
+    //   "April",
+    //   "May",
+    //   "June",
+    //   "July",
+    //   "August",
+    //   "September",
+    //   "October",
+    //   "November",
+    //   "December",
+    // ];
+    // const d = new Date(enrollDate);
+    // let monthName = Months[d.getMonth()];
+
+    // const user = await User.findById(req.user.id);
+
+    // if (!user) {
+    //   errorHandler("User not found", 404);
+    // }
+
+    // if (user.age < 18 || user.age > 65)
+    //   return res.status(400).json({ message: "Age not applicable" });
+
+    // const checkEnrollment = await Batch.findOne({ user: id, month: monthName });
+
+    // if (checkEnrollment)
+    //   return res
+    //     .status(400)
+    //     .json({ message: `Already Enrolled for month ${monthName}` });
+
+    // let transferId = null;
+    // let transferDate = null;
+    // let paymentStatus = false;
+
+    // if (active) {
+    //   transferId = 1234567890;
+    //   //   transferDate = req.body.transferDate;
+    //   transferDate = Date.now();
+    //   //   paymentStatus = req.body.paymentStatus;
+    //   paymentStatus = true;
+    // }
+
+    // const result = await Batch.create({
+    //   user: req.user.id,
+    //   batchId,
+    //   active,
+    //   batch,
+    //   enrollDate,
+    //   month: monthName,
+    // });
+
+    // res.status(201).json({
+    //   success: true,
+    //   message: "User add successfully to particular batch",
+    //   result,
+    // });
