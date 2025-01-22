@@ -10,7 +10,7 @@ Use Nodejs and ExpressJs
 
 ### 🚀 Backend Deployment
 
-The backend is deployed on [Render](https://render.com/).
+The backend is deployed on [Render] (https://sattvaflow.onrender.com)
 
 ## 🌐 Frontend Development
 
@@ -18,7 +18,7 @@ Use ReactJs
 
 ### 🚀 Frontend Deployment
 
-The frontend is deployed on [Netlify](https://www.netlify.com/).
+The frontend is deployed on [Vercel] (https://sattva-flow.vercel.app/)
 
 ## 💾 Database 
 

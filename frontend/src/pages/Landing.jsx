@@ -8,7 +8,7 @@ const Landing = () => {
         <div className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
           <div className="flex flex-row gap-3">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">
-              Welcome to
+              JOIN
             </h2>
             <div className="w-min text-lime-500 text-4xl font-bold font-['Inter']">
               SATTVA

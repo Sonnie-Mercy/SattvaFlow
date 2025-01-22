@@ -64,7 +64,7 @@ const router = createBrowserRouter([
 store.dispatch(getUserFromStorage());
 
 // axios.defaults.baseURL = "http://localhost:3000";
-axios.defaults.baseURL = "https://yoga-day.onrender.com";
+axios.defaults.baseURL = "https://sattvaflow.onrender.com"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
