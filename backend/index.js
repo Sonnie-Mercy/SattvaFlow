@@ -15,9 +15,9 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
+app.get("/", (req, res) => {
+   res.send("Welcome to Sattva Flow API");
+ });
 
 // routes
 const userRouter = require("./routes/userRouter");
