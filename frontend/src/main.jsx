@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./app/store"; // Updated to import the named export
 import Landing from "./pages/Landing.jsx";
+import Login from "./pages/Login.jsx"; // Importing Login component
+import SignUp from "./pages/SignUp.jsx"; // Importing SignUp component
 import "./index.css"; // Importing the CSS file
 
 const router = createBrowserRouter([
@@ -9,60 +13,21 @@ const router = createBrowserRouter([
     path: "/",
     element: <Landing />,
   },
-<<<<<<< HEAD
+  {
+    path: "/login",
+    element: <Login />, // Adding route for Login
+  },
+  {
+    path: "/signup",
+    element: <SignUp />, // Adding route for SignUp
+  },
   // other routes can be added here
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-=======
-  {
-    path: "login",
-    element: <Login />,
-  },
-  {
-    path: "signup",
-    element: <SignUp />,
-  },
-  {
-    path: "",
-    element: <App />, // Render App directly to show Footer
-    children: [
-      {
-        path: "home",
-        element: <Home />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "yoga-class/:id",
-        element: <YogaPage />,
-      },
-      {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
-    ],
-  },
-  {
-    path: "*",
-    element: <Navigate to="/" />, // Redirect to landing for any unknown routes
-  },
-]);
-
-store.dispatch(getUserFromStorage());
-
-// axios.defaults.baseURL = "http://localhost:3000";
-axios.defaults.baseURL = "https://sattvaflow.onrender.com";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={store}> {/* Wrap the RouterProvider with Provider */}
       <RouterProvider router={router} />
     </Provider>
->>>>>>> 424ae89c5bedae1e8e1fc2c4138daccb902ed09c
   </React.StrictMode>
 );
