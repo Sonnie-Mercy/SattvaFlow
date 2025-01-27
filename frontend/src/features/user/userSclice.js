@@ -5,7 +5,8 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 export const loginAsyncThunk = createAsyncThunk("user/login", async (user) => {
   try {
-    const res = await axios.post("/api/auth/login", user);
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, user);
+
     return res.data.data;
   } catch (error) {
     return error.response.data;
@@ -16,7 +17,8 @@ export const registerAsyncThunk = createAsyncThunk(
   "user/register",
   async (user) => {
     try {
-      const res = await axios.post("/api/auth/register", user);
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, user);
+
       return res.data.data;
     } catch (error) {
       return error.response.data;
@@ -26,7 +28,8 @@ export const registerAsyncThunk = createAsyncThunk(
 
 export const logoutAsyncThunk = createAsyncThunk("user/logout", async () => {
   try {
-    const res = await axios.get("/api/auth/logout");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/logout`);
+
     localStorage.removeItem("user"); // Clear user data from local storage
     return res.data.data; // Return any necessary data
   } catch (error) {
@@ -38,7 +41,8 @@ export const updateUserProfileAsyncThunk = createAsyncThunk(
   "user/updateProfile",
   async (userData) => {
     try {
-      const res = await axios.patch("/api/user/update", userData);
+    const res = await axios.patch(`${import.meta.env.VITE_API_URL}/api/user/update`, userData);
+
       return res.data.data; // Return updated user data
     } catch (error) {
       return error.response.data; // Handle errors
