@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
 import { loginAsyncThunk } from "../features/user/userSclice";
 
 const Login = () => {
@@ -31,8 +30,7 @@ const Login = () => {
   return (
     <div className="flex min-h-full h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-<h2 className="w-full text-purple-600 mb-5 text-5xl font-bold font-['Inter'] tracking-tight">
-
+        <h2 className="w-full text-purple-600 mb-5 text-5xl font-bold font-['Inter'] tracking-tight">
           Log in
         </h2>
       </div>
@@ -40,11 +38,10 @@ const Login = () => {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-<label
-  htmlFor="email"
-  className="block text-purple-600 text-3xl font-bold font-['Inter']"
->
-
+            <label
+              htmlFor="email"
+              className="block text-purple-600 text-3xl font-bold font-['Inter']"
+            >
               Email address
             </label>
             <div className="mt-2">
@@ -56,18 +53,17 @@ const Login = () => {
                 value={loginForm.email}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 text-purple-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between">
-<label
-  htmlFor="password"
-  className="block text-purple-600 text-3xl font-bold font-['Inter']"
->
-
+              <label
+                htmlFor="password"
+                className="block text-purple-600 text-3xl font-bold font-['Inter']"
+              >
                 Password
               </label>
             </div>
@@ -80,7 +76,7 @@ const Login = () => {
                 value={loginForm.password}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 text-purple-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
               />
               <div className="text-sm my-2">
                 <Link className="font-semibold text-red-500 hover:text-red-700">
@@ -100,8 +96,7 @@ const Login = () => {
           </div>
         </form>
 
-<p className="mt-10 text-center text-sm text-purple-600">
-
+        <p className="mt-10 text-center text-sm text-purple-600">
           Not a member?{" "}
           <Link
             to="/signup"
