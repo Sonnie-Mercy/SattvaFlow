@@ -62,7 +62,7 @@ const Register = () => {
       <div className="p-10">
         <div className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-md">
           <h2 className="text-4xl font-semibold mb-4">
-            Register for the a Sattva Flow Experience
+            Register for the Sattva Flow Experience
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
