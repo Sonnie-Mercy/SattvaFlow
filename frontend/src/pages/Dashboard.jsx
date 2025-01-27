@@ -14,10 +14,10 @@ const Dashboard = () => {
   const error = useSelector(selectUserError);
 
   const [formData, setFormData] = useState({
-    name: userProfile.name || "",
-    email: userProfile.email || "",
-    age: userProfile.age || "",
-    gender: userProfile.gender || "",
+    name: "",
+    email: "",
+    age: "",
+    gender: "",
   });
 
   const handleChange = (e) => {
@@ -29,23 +29,24 @@ const Dashboard = () => {
     e.preventDefault();
     dispatch(updateUserProfileAsyncThunk(formData))
       .then(() => {
-        alert("user profile updated successfully");
+        alert("User profile updated successfully");
       })
       .catch(() => {
-        alert("something went wrong");
+        alert("Something went wrong");
       });
   };
 
   useEffect(() => {
     if (userProfile) {
       setFormData({
-        name: userProfile.name,
-        email: userProfile.email,
-        age: userProfile.age,
-        gender: userProfile.gender,
+        name: userProfile.name || "",
+        email: userProfile.email || "",
+        age: userProfile.age || "",
+        gender: userProfile.gender || "",
       });
     }
   }, [userProfile]);
+
   return (
     <>
       <div className="container mx-auto mt-10 px-60">
