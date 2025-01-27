@@ -29,7 +29,7 @@ const BatchCard = ({ batch }) => {
             <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
               Month: {batch.month}
             </div>
-            <p className="mt-2 text-gray-500"> Batch Time : {batch.batch}</p>
+            <p className="mt-2 text-gray-500">Batch Time: {batch.batch}</p>
             <p className="mt-2 text-gray-500">
               Enroll Date: {new Date(batch.enrollDate).toLocaleDateString()}
             </p>
@@ -54,7 +54,6 @@ const BatchCard = ({ batch }) => {
                 onClick={handlePayment}
                 className="mt-4 bg-violet-500 text-white py-2 px-4 rounded hover:bg-violet-800"
               >
-                {/* {loading ? "Loading..." : "Pay Now"} */}
                 Pay Now
               </button>
             )}

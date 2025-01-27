@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer"; // Importing Footer component
 
@@ -29,6 +28,15 @@ const Landing = () => {
               className="block text-center text-white bg-purple-500 hover:bg-purple-800 py-2 px-4 rounded-full transition duration-300"
             >
               Sign Up
+            </Link>
+          </div>
+          <div className="mt-4">
+            <p className="text-gray-600 text-lg mb-4">Learn more about us:</p>
+            <Link
+              to="/about"
+              className="block text-center text-white bg-purple-500 hover:bg-purple-800 py-2 px-4 rounded-full transition duration-300"
+            >
+              About Us
             </Link>
           </div>
         </div>
