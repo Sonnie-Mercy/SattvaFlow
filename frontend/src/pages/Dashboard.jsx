@@ -6,9 +6,11 @@ import {
   selectUserLoading,
   selectUserError,
 } from "../features/user/userSclice";
+import { useNavigate } from "react-router-dom"; // Importing useNavigate
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize useNavigate
   const userProfile = useSelector(selectUser);
   const loading = useSelector(selectUserLoading);
   const error = useSelector(selectUserError);
@@ -30,6 +32,7 @@ const Dashboard = () => {
     dispatch(updateUserProfileAsyncThunk(formData))
       .then(() => {
         alert("User profile updated successfully");
+        navigate("/home"); // Redirect to homepage after update
       })
       .catch(() => {
         alert("Something went wrong");

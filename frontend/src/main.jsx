@@ -8,6 +8,7 @@ import Login from "./pages/Login.jsx"; // Importing Login component
 import SignUp from "./pages/SignUp.jsx"; // Importing SignUp component
 import Home from "./pages/Home.jsx"; // Importing Home component
 import Dashboard from "./pages/Dashboard.jsx"; // Importing Dashboard component
+import Register from "./pages/Register.jsx"; // Importing Register component
 import "./index.css"; // Importing the CSS file
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />, // Adding route for Dashboard
+  },
+  {
+    path: "/register",
+    element: <Register />, // Adding route for Register
   },
 ]);
 
