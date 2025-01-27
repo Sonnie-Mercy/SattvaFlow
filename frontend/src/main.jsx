@@ -33,43 +33,40 @@ const router = createBrowserRouter([
   },
   {
     path: "",
-    element: <PrivateRoute />,
+    element: <App />, // Render App directly to show Footer
     children: [
       {
-        path: "",
-        element: <App />,
-        children: [
-          {
-            path: "home",
-            element: <Home />,
-          },
-          {
-            path: "register",
-            element: <Register />,
-          },
-          {
-            path: "yoga-class/:id",
-            element: <YogaPage />,
-          },
-          {
-            path: "dashboard",
-            element: <Dashboard />,
-          },
-        ],
+        path: "home",
+        element: <Home />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "yoga-class/:id",
+        element: <YogaPage />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" />, // Redirect to landing for any unknown routes
   },
 ]);
 
 store.dispatch(getUserFromStorage());
 
 // axios.defaults.baseURL = "http://localhost:3000";
-axios.defaults.baseURL = "https://sattvaflow.onrender.com"
+axios.defaults.baseURL = "https://sattvaflow.onrender.com";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <App /> */}
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
