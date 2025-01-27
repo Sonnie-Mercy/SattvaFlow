@@ -10,7 +10,7 @@ const Landing = () => {
             <h2 className="text-3xl font-bold text-gray-800 mb-6">
               JOIN
             </h2>
-            <div className="w-min text-lime-500 text-4xl font-bold font-['Inter']">
+            <div className="w-min text-violet-500 text-4xl font-bold font-['Inter']">
               SATTVA
             </div>
             <div className="w-min h-7 text-violet-500 text-opacity-80 text-4xl font-bold font-['Inter']">
