@@ -1,56 +1,50 @@
-# Sattva Flow App
+# Sattva Flow Application
 
-> Users Can Sign Up and log In to the Sattva Flow App and Join Different batches to enjoy different classes
-
-
+> Users can register and log in to the Sattva Flow application to join various yoga classes and participate in different batches.
 
 ## 🛠️ Backend Development
 
-Use Nodejs and ExpressJs
+The backend is built using Node.js and Express.js.
 
 ### 🚀 Backend Deployment
 
-The backend is deployed on [Render] (https://sattvaflow.onrender.com)
+The backend is hosted on [Render](https://sattvaflow.onrender.com).
 
 ## 🌐 Frontend Development
 
-Use ReactJs
+The frontend is developed using React.js.
 
 ### 🚀 Frontend Deployment
 
-The frontend is deployed on [Vercel] (https://sattva-flow.vercel.app/)
+The frontend is deployed on [Vercel](https://sattva-flow.vercel.app/).
 
 ## 💾 Database 
 
-Use MongoDB
+The application uses MongoDB.
 
 ### Entity-Relationship (ER) Diagram and Table Schema
-  - <u> **Assumption are taken to run this application smoothly.** <u>
+
+- **Assumptions for Smooth Operation:**
+  - The token cannot be stored in cookies.
+  - To ensure the application runs correctly:
+    - Navigate to `backend/middlewares/tokenAuth.js` and uncomment the line containing the token.
+    - Update the token value in local storage.
+  - The payment API only updates the `paymentStatus` in the Batch table.
+  - Age restrictions apply only when registering for new yoga classes.
+  - Users below 18 and above 65 can also register for the application.
+  - Error handling is not properly implemented on the frontend.
   
-    * **token is not able to store in the cookies.**
-    * to run application correctly
-        * Go backend/backend/middlewares/tokenAuth.js and uncomment the token contain line
-        * Change the token value from local storage.
-    * payment api only change the state of the paymentStatus in Batch table.
-    * Age restriction only apply to the registering to new yoga classes.
-    * Below 18 and above 65 can also register to application.
-    * Error handeling not done propery on the Frontend.
-
-![ER Diagram](images/ER_diagram.png)
-
-- <u> **Approch behind this ER diagram** <u>
-* Any user can register/login to the application<u>
-* User can enroller to yoga classes for current month and feature months also.
-* User can pay fees before starting to the yoga classes for current month.
-* User cannot register for different batched for same month.
-
-
+### What to note
+- Any user can register or log in to the application.
+- Users can enroll in yoga classes for the current month and future months.
+- Users must pay fees before starting yoga classes for the current month.
+- Users cannot register for different batches in the same month.
 
 ### 🛠️ Clone and Build Locally
 
 ```bash
 # Clone the repository
-git clone
+git clone <repository-url>
 
 # Navigate to the backend directory
 cd backend
@@ -76,7 +70,6 @@ npm install
 
 # Run the development server
 npm run dev
----
 ```
 
 **Feel free to fork, star, or contribute to this project!**
