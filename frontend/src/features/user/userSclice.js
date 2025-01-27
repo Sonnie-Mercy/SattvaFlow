@@ -27,43 +27,24 @@ export const registerAsyncThunk = createAsyncThunk(
 export const logoutAsyncThunk = createAsyncThunk("user/logout", async () => {
   try {
     const res = await axios.get("/api/auth/logout");
-    // return res.data.data;
+    localStorage.removeItem("user"); // Clear user data from local storage
+    return res.data.data; // Return any necessary data
   } catch (error) {
-    return error.response.data;
+    return error.response.data; // Handle errors
   }
 });
 
-// export const getUserProfileAsyncThunk = createAsyncThunk(
-//   "user/profile",
-//   async (token) => {
-//     const { data } = await axios.get("/api/users/profile", {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return data;
-//   }
-// );
-
 export const updateUserProfileAsyncThunk = createAsyncThunk(
-  "user/update",
-  async (user) => {
-    const res = await axios.patch("/api/user/update", user);
-    return res.data.data;
+  "user/updateProfile",
+  async (userData) => {
+    try {
+      const res = await axios.patch("/api/user/update", userData);
+      return res.data.data; // Return updated user data
+    } catch (error) {
+      return error.response.data; // Handle errors
+    }
   }
 );
-
-// export const changePasswordAsyncThunk = createAsyncThunk(
-//   "user/changePassword",
-//   async ({ user, token }) => {
-//     const { data } = await axios.patch("/api/users/change-password", user, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return data;
-//   }
-// );
 
 const initialState = {
   user: user ? user : null,
@@ -75,7 +56,6 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // get user from local storage
     getUserFromStorage: (state) => {
       localStorage.getItem("user") &&
         (state.user = JSON.parse(localStorage.getItem("user")));
@@ -89,7 +69,6 @@ export const userSlice = createSlice({
       })
       .addCase(loginAsyncThunk.fulfilled, (state, action) => {
         localStorage.setItem("user", JSON.stringify(action.payload));
-
         state.loading = false;
         state.user = action.payload;
         state.error = null;
@@ -98,14 +77,12 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
       // register
       .addCase(registerAsyncThunk.pending, (state) => {
         state.loading = true;
       })
       .addCase(registerAsyncThunk.fulfilled, (state, action) => {
         localStorage.setItem("user", JSON.stringify(action.payload));
-
         state.loading = false;
         state.user = action.payload;
         state.error = null;
@@ -114,32 +91,28 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
       // logout
       .addCase(logoutAsyncThunk.pending, (state) => {
         state.loading = true;
       })
-      .addCase(logoutAsyncThunk.fulfilled, (state, action) => {
+      .addCase(logoutAsyncThunk.fulfilled, (state) => {
         localStorage.removeItem("user");
-
         state.loading = false;
-        state.user = action.payload;
+        state.user = null; // Clear user data on logout
         state.error = null;
       })
       .addCase(logoutAsyncThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-
       // update profile
       .addCase(updateUserProfileAsyncThunk.pending, (state) => {
         state.loading = true;
       })
       .addCase(updateUserProfileAsyncThunk.fulfilled, (state, action) => {
         localStorage.setItem("user", JSON.stringify(action.payload));
-
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload; // Update user data
         state.error = null;
       })
       .addCase(updateUserProfileAsyncThunk.rejected, (state, action) => {
