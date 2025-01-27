@@ -6,6 +6,7 @@ import { store } from "./app/store"; // Updated to import the named export
 import Landing from "./pages/Landing.jsx";
 import Login from "./pages/Login.jsx"; // Importing Login component
 import SignUp from "./pages/SignUp.jsx"; // Importing SignUp component
+import Home from "./pages/Home.jsx"; // Importing Home component
 import "./index.css"; // Importing the CSS file
 
 const router = createBrowserRouter([
@@ -21,7 +22,10 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignUp />, // Adding route for SignUp
   },
-  // other routes can be added here
+  {
+    path: "/home",
+    element: <Home />, // Adding route for Home
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
