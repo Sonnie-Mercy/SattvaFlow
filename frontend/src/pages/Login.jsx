@@ -19,14 +19,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!loginForm.email || !loginForm.password) return;
+    if (!loginForm.email || !loginForm.password) {
+      setErrorMessage("Please fill in both email and password");
+      return;
+    }
 
     const res = await dispatch(loginAsyncThunk(loginForm));
 
     if (res.meta.requestStatus === "fulfilled") {
       navigate("/home");
     } else {
-      setErrorMessage(res.payload); // Set error message if login fails
+      // Set error message if login fails
+      setErrorMessage(res.payload.message || "Incorrect credentials. Please try again.");
     }
   };
 
