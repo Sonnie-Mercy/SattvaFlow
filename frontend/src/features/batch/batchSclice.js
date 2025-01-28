@@ -3,9 +3,9 @@ import axios from "axios";
 
 export const enrollAsyncThunk = createAsyncThunk(
   "batch/register",
-  async (enrollDate) => {
+  async ({ batch, enrollDate }) => {
     try {
-      const res = await axios.post("/api/batch/register", enrollDate);
+      const res = await axios.post("/api/batch/register", { batch, enrollDate });
       return res.data.data;
     } catch (error) {
       return error.response.data;
@@ -36,7 +36,7 @@ export const getUserBatchDetailsAsyncThunk = createAsyncThunk(
 );
 
 export const batchPaymentAsyncThunk = createAsyncThunk(
-  "batch/payment",
+  "/batch/payment",
   async (batchId) => {
     try {
       const res = await axios.post("/api/batch/payment", { batchId });
