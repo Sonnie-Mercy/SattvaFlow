@@ -12,9 +12,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors({
-  origin: process.env.ORIGIN,
-  credentials: true,
+app.use(cors((req, callback) => {
+  const allowedOrigins = ['http://localhost:5173', 'https://sattva-flow.vercel.app'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    callback(null, true); // Allow the request
+  } else {
+    callback(new Error('Not allowed by CORS')); // Reject the request
+  }
 }));
 app.use(cookieParser());
 
@@ -28,9 +33,7 @@ const authRouter = require("./routes/authRouter");
 const batchRouter = require("./routes/batchRouter");
 
 app.use("/api/auth", authRouter);
-
 app.use("/api/user", userRouter);
-
 app.use("/api/batch", batchRouter);
 
 app.use((err, req, res, next) => {
