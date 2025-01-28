@@ -49,24 +49,26 @@ exports.registerToBatch = async (req, res, next) => {
       }
     }
 
-    // if (batch) {
     const newBatch = await Batch.create({
       user,
       batch,
-      month:
-        enrollMonth || new Date().toLocaleString("default", { month: "long" }),
-      //   paymentStatus: CompletePayment(paymentDetails), // Assuming CompletePayment is a function
+      month: enrollMonth || new Date().toLocaleString("default", { month: "long" }),
       enrollDate,
-      active:
-        enrollMonth == new Date().toLocaleString("default", { month: "long" })
-          ? true
-          : false,
+      active: enrollMonth == new Date().toLocaleString("default", { month: "long" }) ? true : false,
     });
-    // }
 
     return res
       .status(201)
-      .json({ message: "Enrollment completed successfully.", data: newBatch });
+      .json({
+        message: "Enrollment completed successfully.",
+        data: {
+          batchId: newBatch._id,
+          batchName: newBatch.batch,
+          month: newBatch.month,
+          enrollDate: newBatch.enrollDate,
+          status: newBatch.active ? "Active" : "Inactive",
+        },
+      });
   } catch (error) {
     next(error);
   }
@@ -115,10 +117,6 @@ exports.batchPayment = async (req, res, next) => {
     const { userId } = req.user;
 
     const { batchId, paymentDetails } = req.body;
-
-    // if (!batchId || !paymentDetails) {
-    //   errorHandler("Please fill all the required fields", 400);
-    // }
 
     const batch = await Batch.findById(batchId);
 
