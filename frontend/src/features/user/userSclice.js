@@ -1,15 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"; 
 import axios from "axios";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-export const loginAsyncThunk = createAsyncThunk("user/login", async (user) => {
+export const loginAsyncThunk = createAsyncThunk("user/login", async (user, { rejectWithValue }) => {
   try {
     const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, user);
-
     return res.data.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data || "login failed");
+    return rejectWithValue(error.response?.data || "Login failed");
   }
 });
 
@@ -17,8 +16,7 @@ export const registerAsyncThunk = createAsyncThunk(
   "user/register",
   async (user) => {
     try {
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, user);
-
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, user);
       return res.data.data;
     } catch (error) {
       return error.response.data;
@@ -29,11 +27,10 @@ export const registerAsyncThunk = createAsyncThunk(
 export const logoutAsyncThunk = createAsyncThunk("user/logout", async () => {
   try {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/logout`);
-
-    localStorage.removeItem("user"); // Clear user data from local storage
-    return res.data.data; // Return any necessary data
+    localStorage.removeItem("user");
+    return res.data.data;
   } catch (error) {
-    return error.response.data; // Handle errors
+    return error.response.data;
   }
 });
 
@@ -41,11 +38,10 @@ export const updateUserProfileAsyncThunk = createAsyncThunk(
   "user/updateProfile",
   async (userData) => {
     try {
-    const res = await axios.patch(`${import.meta.env.VITE_API_URL}/api/user/update`, userData);
-
-      return res.data.data; // Return updated user data
+      const res = await axios.patch(`${import.meta.env.VITE_API_URL}/api/user/update`, userData);
+      return res.data.data;
     } catch (error) {
-      return error.response.data; // Handle errors
+      return error.response.data;
     }
   }
 );
@@ -67,7 +63,6 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // login
       .addCase(loginAsyncThunk.pending, (state) => {
         state.loading = true;
       })
@@ -81,7 +76,6 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // register
       .addCase(registerAsyncThunk.pending, (state) => {
         state.loading = true;
       })
@@ -95,28 +89,26 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // logout
       .addCase(logoutAsyncThunk.pending, (state) => {
         state.loading = true;
       })
       .addCase(logoutAsyncThunk.fulfilled, (state) => {
         localStorage.removeItem("user");
         state.loading = false;
-        state.user = null; // Clear user data on logout
+        state.user = null;
         state.error = null;
       })
       .addCase(logoutAsyncThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // update profile
       .addCase(updateUserProfileAsyncThunk.pending, (state) => {
         state.loading = true;
       })
       .addCase(updateUserProfileAsyncThunk.fulfilled, (state, action) => {
         localStorage.setItem("user", JSON.stringify(action.payload));
         state.loading = false;
-        state.user = action.payload; // Update user data
+        state.user = action.payload;
         state.error = null;
       })
       .addCase(updateUserProfileAsyncThunk.rejected, (state, action) => {
