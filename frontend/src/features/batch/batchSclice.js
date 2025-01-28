@@ -3,12 +3,12 @@ import axios from "axios";
 
 export const enrollAsyncThunk = createAsyncThunk(
   "batch/register",
-  async ({ batch, enrollDate }) => {
+  async ({ batch, enrollDate }, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/batch/register", { batch, enrollDate });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}api/batch/register`, { batch, enrollDate });
       return res.data.data;
     } catch (error) {
-      return error.response.data;
+      return rejectWithValue(error.response?.data || "Enrollment failed.");
     }
   }
 );
@@ -18,7 +18,7 @@ export const getUserBatchDetailsAsyncThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("user"))?.token; // Retrieve token from localStorage
-      const res = await axios.get("/api/batch/details", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/batch/details`, {
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the headers
         },
@@ -27,7 +27,7 @@ export const getUserBatchDetailsAsyncThunk = createAsyncThunk(
       if (Array.isArray(data)) {
         return data;
       } else {
-        return rejectWithValue("not valid");
+        return rejectWithValue("Invalid response format.");
       }
     } catch (error) {
       return rejectWithValue(error.response?.data || "Error fetching batch details.");
@@ -36,13 +36,13 @@ export const getUserBatchDetailsAsyncThunk = createAsyncThunk(
 );
 
 export const batchPaymentAsyncThunk = createAsyncThunk(
-  "/batch/payment",
-  async (batchId) => {
+  "batch/payment",
+  async (batchId, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/batch/payment", { batchId });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/batch/payment`, { batchId });
       return res.data.data;
     } catch (error) {
-      return error.response.data;
+      return rejectWithValue(error.response?.data || "Payment failed.");
     }
   }
 );
@@ -58,10 +58,11 @@ export const batchSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // enrollAsyncThunk
     builder
+      // enrollAsyncThunk
       .addCase(enrollAsyncThunk.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(enrollAsyncThunk.fulfilled, (state, action) => {
         state.loading = false;
@@ -75,6 +76,7 @@ export const batchSlice = createSlice({
       // getUserBatchDetailsAsyncThunk
       .addCase(getUserBatchDetailsAsyncThunk.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(getUserBatchDetailsAsyncThunk.fulfilled, (state, action) => {
         state.loading = false;
@@ -88,15 +90,15 @@ export const batchSlice = createSlice({
       // batchPaymentAsyncThunk
       .addCase(batchPaymentAsyncThunk.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(batchPaymentAsyncThunk.fulfilled, (state, action) => {
-        const updatedEnrollmentDetails = state.batch.map((item) =>
+        state.loading = false;
+        state.batch = state.batch.map((item) =>
           item.batchId === action.payload.batchId
             ? { ...item, paymentStatus: true }
             : item
         );
-        state.loading = false;
-        state.batch = updatedEnrollmentDetails;
       })
       .addCase(batchPaymentAsyncThunk.rejected, (state, action) => {
         state.loading = false;
