@@ -17,12 +17,17 @@ export const getUserBatchDetailsAsyncThunk = createAsyncThunk(
   "batch/details",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("api/batch/details");
+      const token = JSON.parse(localStorage.getItem("user"))?.token; // Retrieve token from localStorage
+      const res = await axios.get("/api/batch/details", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the headers
+        },
+      });
       const data = res.data.data;
       if (Array.isArray(data)) {
         return data;
       } else {
-        return rejectWithValue ("not valid")
+        return rejectWithValue("not valid");
       }
     } catch (error) {
       return rejectWithValue(error.response?.data || "Error fetching batch details.");

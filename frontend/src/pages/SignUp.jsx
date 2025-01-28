@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
@@ -41,7 +42,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex min-h-full h-screen flex-1 flex-col justify-center px-6 py-8 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-between px-6 py-8 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="w-full text-purple-600 mb-2 text-5xl font-bold font-['Inter'] tracking-tight">
           Sign Up
