@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // Import useState from React
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAsyncThunk } from "../features/user/userSclice";
@@ -11,6 +11,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
   const handleChange = (e) => {
     setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
@@ -24,6 +25,8 @@ const Login = () => {
 
     if (res.meta.requestStatus === "fulfilled") {
       navigate("/home");
+    } else {
+      setErrorMessage(res.payload); // Set error message if login fails
     }
   };
 
@@ -85,6 +88,10 @@ const Login = () => {
               </div>
             </div>
           </div>
+
+          {errorMessage && (
+            <p className="text-red-500 text-center">{errorMessage}</p> // Display error message
+          )}
 
           <div>
             <button

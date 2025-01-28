@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-
-import {
-  registerAsyncThunk,
-} from "../features/user/userSclice";
+import { registerAsyncThunk } from "../features/user/userSclice";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -17,6 +14,7 @@ const SignUp = () => {
     age: "",
     gender: "",
   });
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
   const handleChange = (e) => {
     setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value });
@@ -31,13 +29,14 @@ const SignUp = () => {
       !signUpForm.password ||
       !signUpForm.age ||
       !signUpForm.gender
-    )
-      return;
+    ) return;
 
     const res = await dispatch(registerAsyncThunk(signUpForm));
 
     if (res.meta.requestStatus === "fulfilled") {
       navigate("/home");
+    } else {
+      setErrorMessage(res.payload); // Set error message if registration fails
     }
   };
 
@@ -156,6 +155,10 @@ const SignUp = () => {
               </select>
             </div>
           </div>
+
+          {errorMessage && (
+            <p className="text-red-500 text-center">{errorMessage}</p> // Display error message
+          )}
 
           <button
             type="submit"

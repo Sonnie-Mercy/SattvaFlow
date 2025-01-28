@@ -59,19 +59,26 @@ exports.loginUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      errorHandler("Please fill all the fields", 400);
+      console.log("Error: Please fill all the fields");
+      return errorHandler("Please fill all the fields", 400);
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      errorHandler("User not found", 404);
+      console.log("Error: User not found");
+      return errorHandler("User not found", 404);
     }
+
+    console.log("Login attempt:", { email, password });
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      errorHandler("Invalid credentials", 401);
+      console.log("Error: Invalid credentials for user:", email);
+      return errorHandler("Invalid credentials", 401);
+    } else {
+      console.log("Login successful for user:", email);
     }
 
     const token = generateToken(user._id);
@@ -91,6 +98,7 @@ exports.loginUser = async (req, res, next) => {
         },
       });
   } catch (error) {
+    console.error("Login error:", error);
     next(error);
   }
 };
