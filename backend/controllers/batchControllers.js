@@ -1,49 +1,40 @@
 const User = require("../models/userModel");
 const Batch = require("../models/batchModel");
-
 const CompletePayment = require("../utils/makePayments");
 const errorHandler = require("../utils/errorHandler");
 
-// register to batch for yoga class
+// Register to batch for yoga class
 exports.registerToBatch = async (req, res, next) => {
   try {
     const { userId } = req.user;
     const { batch, enrollDate } = req.body;
 
     if (!batch || !enrollDate) {
-      return next(errorHandler("Both batch and enrollment date are required to proceed.", 400));
-
+      return next(errorHandler("Batch and enrollment date are required.", 400));
     }
 
     const user = await User.findById(userId);
     if (!user || user.age < 14 || user.age > 99) {
-      return next(errorHandler("User is either invalid or not eligible for enrollment (age must be between 14 and 99).", 400));
-
+      return next(errorHandler("Invalid user or age not eligible.", 400));
     }
 
-    if (!enrollDate || isNaN(Date.parse(enrollDate))) {
-      return next(errorHandler(`The provided enrollment date "${enrollDate}" is invalid. Please provide a valid date.`, 400));
-
-    }
-
-    const enrollMonth = new Intl.DateTimeFormat("en-US", { month: "long" }).format(new Date(enrollDate));
-
+    const enrollMonth = new Date(enrollDate).toLocaleString("default", { month: "long" });
     const existingBatch = await Batch.findOne({ user: userId, month: enrollMonth });
-    if (existingBatch) {
-      return next(errorHandler(`Enrollment failed: User is already registered for a batch in ${enrollMonth}.`, 400));
 
+    if (existingBatch) {
+      return next(errorHandler(`Already registered for ${enrollMonth}.`, 400));
     }
 
     const newBatch = await Batch.create({
-      user,
+      user: userId,
       batch,
       month: enrollMonth,
       enrollDate,
-      active: enrollMonth === new Date().toLocaleString("default", { month: "long" }) ? true : false,
+      active: enrollMonth === new Date().toLocaleString("default", { month: "long" }), // Set 'active' for current month
     });
 
-    return res.status(201).json({
-      message: "Enrollment completed successfully.",
+    res.status(201).json({
+      message: "Enrollment successful.",
       data: newBatch,
     });
   } catch (error) {
@@ -51,58 +42,60 @@ exports.registerToBatch = async (req, res, next) => {
   }
 };
 
-// get user batch details
+// Fetch user batch details
 exports.getUserBatchDetails = async (req, res, next) => {
   try {
     const { userId } = req.user;
-    const currentMonth = new Date().toLocaleString("default", { month: "long" });
 
-    const batch = await Batch.find({ user: userId }).populate("user");
-    if (!batch || batch.length === 0) {
-      return next(errorHandler("Batch not found", 404));
+    const batches = await Batch.find({ user: userId }).populate("user");
+    if (!batches || batches.length === 0) {
+      return next(errorHandler("No batches found for this user.", 404));
     }
 
-    const enrollmentDetails = batch.map((item) => {
-      return {
-        batchId: item._id,
-        batchName: item.batch,
-        month: item.month,
-        enrollDate: item.enrollDate,
-        status: item.month === currentMonth ? "Active" : "Inactive",
-      };
-    });
+    const formattedBatches = batches.map((batch) => ({
+      _id: batch._id,
+      batchName: batch.batch,
+      month: batch.month,
+      enrollDate: batch.enrollDate,
+      active: batch.active,
+      paymentStatus: batch.paymentStatus || false,
+    }));
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      message: "Batch details fetched successfully",
-      data: enrollmentDetails, // Return the formatted enrollmentDetails
+      data: formattedBatches,
     });
   } catch (error) {
     next(error);
   }
 };
 
-// complete payment for batch
+// Process batch payment and update status
 exports.batchPayment = async (req, res, next) => {
   try {
-    const { userId } = req.user;
     const { batchId, paymentDetails } = req.body;
 
     const batch = await Batch.findById(batchId);
     if (!batch) {
-      return next(errorHandler("Batch not found", 400));
+      return next(errorHandler("Batch not found.", 404));
     }
 
     if (batch.paymentStatus) {
-      return next(errorHandler("Payment for this batch has already been completed.", 400));
+      return next(errorHandler("Payment already completed.", 400));
     }
 
-    batch.paymentStatus = CompletePayment(paymentDetails);
+    // Process the payment
+    batch.paymentStatus = CompletePayment(paymentDetails); // Assuming this updates correctly
+    if (batch.paymentStatus) {
+      // Activate the batch after successful payment
+      batch.active = true;
+    }
+
     await batch.save();
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      message: "Payment completed successfully",
+      message: "Payment successful, batch activated.",
       data: batch,
     });
   } catch (error) {

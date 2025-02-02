@@ -5,7 +5,16 @@ export const enrollAsyncThunk = createAsyncThunk(
   "batch/register",
   async ({ batch, enrollDate }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}api/batch/register`, { batch, enrollDate });
+      const token = JSON.parse(localStorage.getItem("user"))?.token;
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/batch/register`,
+        { batch, enrollDate },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add the token here
+          },
+        }
+      );
       return res.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Enrollment failed.");
@@ -17,10 +26,10 @@ export const getUserBatchDetailsAsyncThunk = createAsyncThunk(
   "batch/details",
   async (_, { rejectWithValue }) => {
     try {
-      const token = JSON.parse(localStorage.getItem("user"))?.token; // Retrieve token from localStorage
+      const token = JSON.parse(localStorage.getItem("user"))?.token;
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/batch/details`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the headers
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = res.data.data;
@@ -59,7 +68,6 @@ export const batchSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // enrollAsyncThunk
       .addCase(enrollAsyncThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -72,8 +80,6 @@ export const batchSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-      // getUserBatchDetailsAsyncThunk
       .addCase(getUserBatchDetailsAsyncThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -86,8 +92,6 @@ export const batchSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-      // batchPaymentAsyncThunk
       .addCase(batchPaymentAsyncThunk.pending, (state) => {
         state.loading = true;
         state.error = null;

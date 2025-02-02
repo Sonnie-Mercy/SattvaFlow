@@ -3,10 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const connectDB = require("./utils/db");
-
-//if (process.env.NODE_ENV !== "production") {
- // require("dotenv").config();
-//}
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;

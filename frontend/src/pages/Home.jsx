@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BatchCard from "../components/BatchCard";
-import Header from "../components/Header"; // Importing Header component
-import Footer from "../components/Footer"; // Importing Footer component
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import {
   getUserBatchDetailsAsyncThunk,
   selectBatch,
@@ -22,18 +22,18 @@ const Home = () => {
 
     fetchData();
   }, [dispatch, error]);
-  
+
   if (!Array.isArray(batchList)) {
     console.error("Expected batchList to be an array but got:", batchList);
     return <div>Error: Batch list is not an array</div>;
   }
 
   return (
-    <div className="flex flex-col min-h-screen"> {/* Ensuring full height */}
-      <Header /> {/* Adding Header component */}
-      <div className="flex-grow"> {/* Allowing content to grow */}
-        <div className="flex justify-center items-center p-5 shadow ">
-          <p className="max-w-lg text-4xl font-bold leading-normal text-purple-500 ">
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex-grow">
+        <div className="flex justify-center items-center p-5 shadow">
+          <p className="max-w-lg text-4xl font-bold leading-normal text-purple-500">
             Welcome to Sattva Flow
           </p>
         </div>
@@ -43,7 +43,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <Footer /> {/* Adding Footer component */}
+      <Footer />
     </div>
   );
 };
